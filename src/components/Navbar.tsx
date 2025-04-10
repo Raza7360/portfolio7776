@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Home, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -93,11 +93,11 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Button variant="ghost" size="icon" asChild className="mr-2">
-            <Link to="/" aria-label="Home">
-              <Home size={18} />
-            </Link>
-          </Button>
+          <NavLink 
+            to="/" 
+            title="Home" 
+            isActive={location.pathname === "/"}
+          />
           <NavLink 
             to="/about" 
             title="About" 
@@ -133,11 +133,6 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <div className="flex items-center space-x-4 md:hidden">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/" aria-label="Home">
-              <Home size={18} />
-            </Link>
-          </Button>
           <Toggle 
             pressed={theme === 'dark'} 
             onPressedChange={toggleTheme}
@@ -165,6 +160,11 @@ export default function Navbar() {
           className="md:hidden bg-background/95 backdrop-blur-lg w-full"
         >
           <div className="container-custom py-4 flex flex-col space-y-4">
+            <NavLink 
+              to="/" 
+              title="Home" 
+              isActive={location.pathname === "/"}
+            />
             <NavLink 
               to="/about" 
               title="About" 
