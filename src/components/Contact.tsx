@@ -5,10 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { MailIcon, MessageSquare, Send } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 export default function Contact() {
+  const location = useLocation();
+  const isContactPage = location.pathname === "/contact";
+  
   return (
-    <section id="contact" className="section">
+    <section id="contact" className={`section ${isContactPage ? 'pt-28' : ''}`}>
       <div className="container-custom">
         <AnimateOnScroll>
           <div className="text-center mb-12">

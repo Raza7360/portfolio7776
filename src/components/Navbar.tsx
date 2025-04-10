@@ -3,21 +3,23 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
-const NavLink = ({ href, title }: { href: string; title: string }) => {
+const NavLink = ({ to, title, isActive }: { to: string; title: string; isActive: boolean }) => {
   return (
-    <a
-      href={href}
-      className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+    <Link
+      to={to}
+      className={`text-sm font-medium transition-colors ${isActive ? 'text-accent' : 'text-foreground hover:text-accent'}`}
     >
       {title}
-    </a>
+    </Link>
   );
 };
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +33,11 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -56,16 +63,32 @@ export default function Navbar() {
       }`}
     >
       <div className="container-custom flex items-center justify-between">
-        <a href="/" className="text-xl font-bold">
+        <Link to="/" className="text-xl font-bold">
           Devraj<span className="text-accent">.</span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLink href="#about" title="About" />
-          <NavLink href="#projects" title="Projects" />
-          <NavLink href="#experience" title="Experience" />
-          <NavLink href="#contact" title="Contact" />
+          <NavLink 
+            to="/about" 
+            title="About" 
+            isActive={location.pathname === "/about"}
+          />
+          <NavLink 
+            to="/projects" 
+            title="Projects" 
+            isActive={location.pathname === "/projects"}
+          />
+          <NavLink 
+            to="/experience" 
+            title="Experience" 
+            isActive={location.pathname === "/experience"}
+          />
+          <NavLink 
+            to="/contact" 
+            title="Contact" 
+            isActive={location.pathname === "/contact"}
+          />
           <Button variant="outline" size="sm">
             Resume
           </Button>
@@ -92,10 +115,26 @@ export default function Navbar() {
           className="md:hidden bg-background/95 backdrop-blur-lg"
         >
           <div className="container-custom py-4 flex flex-col space-y-4">
-            <NavLink href="#about" title="About" />
-            <NavLink href="#projects" title="Projects" />
-            <NavLink href="#experience" title="Experience" />
-            <NavLink href="#contact" title="Contact" />
+            <NavLink 
+              to="/about" 
+              title="About" 
+              isActive={location.pathname === "/about"}
+            />
+            <NavLink 
+              to="/projects" 
+              title="Projects" 
+              isActive={location.pathname === "/projects"}
+            />
+            <NavLink 
+              to="/experience" 
+              title="Experience" 
+              isActive={location.pathname === "/experience"}
+            />
+            <NavLink 
+              to="/contact" 
+              title="Contact" 
+              isActive={location.pathname === "/contact"}
+            />
             <Button variant="outline" size="sm" className="w-full">
               Resume
             </Button>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowDownIcon, GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
 import { AnimatedText, FadeIn, ScaleIn } from './ui/motion';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -39,11 +40,11 @@ export default function Hero() {
           
           <FadeIn delay={1.5}>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-              <Button className="min-w-[150px]">
-                Get in touch
+              <Button className="min-w-[150px]" asChild>
+                <Link to="/contact">Get in touch</Link>
               </Button>
-              <Button variant="outline" className="min-w-[150px]">
-                See my work
+              <Button variant="outline" className="min-w-[150px]" asChild>
+                <Link to="/projects">See my work</Link>
               </Button>
             </div>
           </FadeIn>
