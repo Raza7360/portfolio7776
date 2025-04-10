@@ -1,9 +1,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Home, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '@/contexts/ThemeContext';
+import { Toggle } from '@/components/ui/toggle';
 
 const NavLink = ({ to, title, isActive }: { to: string; title: string; isActive: boolean }) => {
   return (
@@ -20,6 +22,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,24 +54,50 @@ export default function Navbar() {
     }
   };
 
+  const containerVariants = {
+    normal: { 
+      width: '100%', 
+      transition: { duration: 0.3, ease: "easeInOut" } 
+    },
+    shrunk: { 
+      width: '90%', 
+      transition: { duration: 0.3, ease: "easeInOut" } 
+    }
+  };
+
   return (
     <motion.header
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${
+      className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 flex justify-center ${
         isScrolled
-          ? 'py-4 bg-background/80 backdrop-blur-lg shadow-sm'
-          : 'py-6 bg-transparent'
+          ? 'py-3 bg-background/80 backdrop-blur-lg shadow-sm'
+          : 'py-5 bg-transparent'
       }`}
     >
-      <div className="container-custom flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold">
-          Devraj<span className="text-accent">.</span>
-        </Link>
+      <motion.div 
+        variants={containerVariants}
+        initial="normal"
+        animate={isScrolled ? "shrunk" : "normal"}
+        className={`container-custom flex items-center justify-between rounded-full ${
+          isScrolled ? 'bg-background/90 px-6 py-2' : ''
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <Link to="/" className="text-xl font-bold flex items-center gap-2">
+            <span className="text-accent font-bold text-2xl">D</span>
+            <span className="hidden sm:inline">Devraj<span className="text-accent">.</span></span>
+          </Link>
+        </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
+          <Button variant="ghost" size="icon" asChild className="mr-2">
+            <Link to="/" aria-label="Home">
+              <Home size={18} />
+            </Link>
+          </Button>
           <NavLink 
             to="/about" 
             title="About" 
@@ -89,21 +118,42 @@ export default function Navbar() {
             title="Contact" 
             isActive={location.pathname === "/contact"}
           />
+          <Toggle 
+            pressed={theme === 'dark'} 
+            onPressedChange={toggleTheme}
+            aria-label="Toggle theme"
+            className="ml-2"
+          >
+            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
+          </Toggle>
           <Button variant="outline" size="sm">
             Resume
           </Button>
         </nav>
 
         {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </Button>
-      </div>
+        <div className="flex items-center space-x-4 md:hidden">
+          <Button variant="ghost" size="icon" asChild>
+            <Link to="/" aria-label="Home">
+              <Home size={18} />
+            </Link>
+          </Button>
+          <Toggle 
+            pressed={theme === 'dark'} 
+            onPressedChange={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
+          </Toggle>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </Button>
+        </div>
+      </motion.div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
@@ -112,7 +162,7 @@ export default function Navbar() {
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
-          className="md:hidden bg-background/95 backdrop-blur-lg"
+          className="md:hidden bg-background/95 backdrop-blur-lg w-full"
         >
           <div className="container-custom py-4 flex flex-col space-y-4">
             <NavLink 
