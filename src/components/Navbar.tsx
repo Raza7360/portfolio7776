@@ -72,8 +72,8 @@ export default function Navbar() {
       variants={navVariants}
       className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 flex justify-center ${
         isScrolled
-          ? 'py-3 bg-background/80 backdrop-blur-lg shadow-sm'
-          : 'py-5 bg-transparent'
+          ? 'py-2 bg-background/80 backdrop-blur-lg shadow-sm'
+          : 'py-4 bg-transparent'
       }`}
     >
       <motion.div 
@@ -94,11 +94,6 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <NavLink 
-            to="/" 
-            title="Home" 
-            isActive={location.pathname === "/"}
-          />
-          <NavLink 
             to="/about" 
             title="About" 
             isActive={location.pathname === "/about"}
@@ -118,6 +113,11 @@ export default function Navbar() {
             title="Contact" 
             isActive={location.pathname === "/contact"}
           />
+          <NavLink 
+            to="/resume" 
+            title="Resume" 
+            isActive={location.pathname === "/resume"}
+          />
           <Toggle 
             pressed={theme === 'dark'} 
             onPressedChange={toggleTheme}
@@ -126,9 +126,6 @@ export default function Navbar() {
           >
             {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </Toggle>
-          <Button variant="outline" size="sm">
-            Resume
-          </Button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -185,9 +182,11 @@ export default function Navbar() {
               title="Contact" 
               isActive={location.pathname === "/contact"}
             />
-            <Button variant="outline" size="sm" className="w-full">
-              Resume
-            </Button>
+            <NavLink 
+              to="/resume" 
+              title="Resume" 
+              isActive={location.pathname === "/resume"}
+            />
           </div>
         </motion.div>
       )}

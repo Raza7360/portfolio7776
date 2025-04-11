@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Experience from '@/components/Experience';
 import Footer from '@/components/Footer';
+import BottomNav from '@/components/BottomNav';
 
 const ExperiencePage = () => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const ExperiencePage = () => {
         <Experience />
       </div>
       <Footer />
+      <BottomNav />
     </div>
   );
 };

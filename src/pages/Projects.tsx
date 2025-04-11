@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Projects from '@/components/Projects';
 import Footer from '@/components/Footer';
+import BottomNav from '@/components/BottomNav';
 
 const ProjectsPage = () => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const ProjectsPage = () => {
         <Projects />
       </div>
       <Footer />
+      <BottomNav />
     </div>
   );
 };

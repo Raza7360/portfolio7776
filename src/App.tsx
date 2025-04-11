@@ -11,6 +11,7 @@ import AboutPage from "./pages/About";
 import ProjectsPage from "./pages/Projects";
 import ExperiencePage from "./pages/Experience";
 import ContactPage from "./pages/Contact";
+import ResumePage from "./pages/Resume";
 import NotFound from "./pages/NotFound";
 
 // Create a client with configurations to handle potential issues
@@ -38,6 +39,7 @@ const App = () => {
                 <Route path="/projects" element={<ProjectsPage />} />
                 <Route path="/experience" element={<ExperiencePage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/resume" element={<ResumePage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

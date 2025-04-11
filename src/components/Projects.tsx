@@ -135,72 +135,95 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Timeline Projects */}
+        {/* Timeline Projects - Timeline on left, cards on right */}
         <div className="mt-16">
           <AnimateOnScroll>
             <h3 className="text-xl font-medium mb-8 text-center">Project Timeline</h3>
           </AnimateOnScroll>
           
-          <div className="relative">
-            {/* Vertical Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-border">
-              <Progress value={progress} className="h-full w-1" />
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Timeline on left */}
+            <div className="md:w-1/3 relative">
+              <div className="sticky top-24">
+                <div className="relative h-full">
+                  {/* Vertical Line */}
+                  <div className="absolute left-4 top-0 h-full w-1 bg-border">
+                    <Progress value={progress} className="h-full w-1" />
+                  </div>
+
+                  <div className="space-y-12 ml-10">
+                    {timelineProjects.map((project, index) => (
+                      <AnimateOnScroll key={project.title}>
+                        <div className="relative">
+                          {/* Timeline Dot */}
+                          <div className="absolute left-[-2.25rem] top-1.5 w-4 h-4 rounded-full bg-accent z-10"></div>
+                          
+                          <div className="mb-1 font-medium">{project.title}</div>
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-3.5 w-3.5 mr-1.5" />
+                            <span>{project.date}</span>
+                          </div>
+                        </div>
+                      </AnimateOnScroll>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-12">
-              {timelineProjects.map((project, index) => (
-                <AnimateOnScroll key={project.title}>
-                  <div className={`relative flex items-center ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}>
-                    {/* Timeline Dot */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-accent z-10"></div>
-                    
-                    {/* Content */}
-                    <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                      <div className="bg-card border border-border p-5 rounded-lg shadow-sm hover:border-accent/50 transition-all">
-                        <div className="flex items-center gap-2 mb-2 text-muted-foreground text-sm">
-                          <Calendar className="h-4 w-4" />
-                          <span>{project.date}</span>
+            {/* Project cards on right */}
+            <div className="md:w-2/3">
+              <div className="space-y-8">
+                {timelineProjects.map((project, index) => (
+                  <AnimateOnScroll key={project.title}>
+                    <Card className="border border-border hover:border-accent/50 transition-all overflow-hidden">
+                      <div className="md:flex">
+                        <div className="md:w-1/3 h-48 md:h-auto">
+                          <img 
+                            src={project.imageUrl} 
+                            alt={project.title} 
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                        <h4 className="text-lg font-semibold mb-2">{project.title}</h4>
-                        <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {project.tags.slice(0, 3).map(tag => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <div className="flex justify-between">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground"
-                            asChild
-                          >
-                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                              <GithubIcon className="mr-1 h-3 w-3" />
-                              Code
-                            </a>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            asChild
-                          >
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <span>View</span>
-                              <ArrowUpRight className="ml-1 h-3 w-3" />
-                            </a>
-                          </Button>
+                        <div className="p-5 md:w-2/3">
+                          <h4 className="text-lg font-semibold mb-2">{project.title}</h4>
+                          <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.tags.map(tag => (
+                              <Badge key={tag} variant="secondary" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          <div className="flex justify-between mt-4">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-muted-foreground"
+                              asChild
+                            >
+                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <GithubIcon className="mr-1 h-3 w-3" />
+                                Code
+                              </a>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              asChild
+                            >
+                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                <span>View</span>
+                                <ArrowUpRight className="ml-1 h-3 w-3" />
+                              </a>
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    {/* Empty space for opposite side */}
-                    <div className="w-5/12"></div>
-                  </div>
-                </AnimateOnScroll>
-              ))}
+                    </Card>
+                  </AnimateOnScroll>
+                ))}
+              </div>
             </div>
           </div>
         </div>
