@@ -118,33 +118,27 @@ export default function Navbar() {
             title="Resume" 
             isActive={location.pathname === "/resume"}
           />
-          <Toggle 
-            pressed={theme === 'dark'} 
-            onPressedChange={toggleTheme}
-            aria-label="Toggle theme"
-            className="ml-2"
-          >
-            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
-          </Toggle>
         </nav>
 
-        {/* Mobile Menu Button */}
-        <div className="flex items-center space-x-4 md:hidden">
-          <Toggle 
-            pressed={theme === 'dark'} 
-            onPressedChange={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
-          </Toggle>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
-        </div>
+        {/* Theme Toggle - Always visible on all screens */}
+        <Toggle 
+          pressed={theme === 'dark'} 
+          onPressedChange={toggleTheme}
+          aria-label="Toggle theme"
+          className="ml-2"
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </Toggle>
+
+        {/* Mobile Menu Button - Only shown on mobile */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden ml-2"
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </Button>
       </motion.div>
 
       {/* Mobile Menu */}
@@ -154,7 +148,7 @@ export default function Navbar() {
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3 }}
-          className="md:hidden bg-background/95 backdrop-blur-lg w-full"
+          className="md:hidden bg-background/95 backdrop-blur-lg w-full absolute top-full"
         >
           <div className="container-custom py-4 flex flex-col space-y-4">
             <NavLink 

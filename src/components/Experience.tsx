@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Briefcase, Calendar, Quote, Twitter } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const jobs = [
   {
@@ -78,6 +79,7 @@ const testimonials = [
 export default function Experience() {
   const [activeTab, setActiveTab] = useState("Netflix");
   const [progress, setProgress] = useState(0);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const timer = setTimeout(() => setProgress(100), 500);
@@ -139,69 +141,105 @@ export default function Experience() {
             <h3 className="text-xl font-medium mb-8 text-center">Career Timeline</h3>
           </AnimateOnScroll>
           
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Timeline on left */}
-            <div className="md:w-1/3 relative">
-              <div className="sticky top-24">
-                <div className="relative h-full">
-                  {/* Vertical Line */}
-                  <div className="absolute left-4 top-0 h-full w-1 bg-border">
-                    <Progress value={progress} className="h-full w-1" />
-                  </div>
+          {isMobile ? (
+            // Mobile view - cards only
+            <div className="space-y-8">
+              {sortedJobs.map((job, index) => (
+                <AnimateOnScroll key={job.company}>
+                  <Card className="p-6 border border-border hover:border-accent/50 transition-all">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-lg font-semibold">{job.company}</h4>
+                      <p className="text-accent font-medium text-sm">{job.role}</p>
+                    </div>
+                    <div className="flex items-center gap-2 mb-4 text-muted-foreground text-sm">
+                      <Calendar className="h-4 w-4" />
+                      <span>{job.duration}</span>
+                    </div>
+                    <ul className="space-y-2 mb-4">
+                      {job.description.map((point, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <div className="h-1.5 w-1.5 rounded-full bg-accent mt-2"></div>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {job.technologies.map(tech => (
+                        <span key={tech} className="text-xs bg-secondary px-2 py-1 rounded">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </Card>
+                </AnimateOnScroll>
+              ))}
+            </div>
+          ) : (
+            // Desktop view - timeline + cards
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Timeline on left */}
+              <div className="md:w-1/3 relative">
+                <div className="sticky top-24">
+                  <div className="relative h-full">
+                    {/* Vertical Line */}
+                    <div className="absolute left-4 top-0 h-full w-1 bg-border">
+                      <Progress value={progress} className="h-full w-1" />
+                    </div>
 
-                  <div className="space-y-12 ml-10">
-                    {sortedJobs.map((job, index) => (
-                      <AnimateOnScroll key={job.company}>
-                        <div className="relative">
-                          {/* Timeline Dot */}
-                          <div className="absolute left-[-2.25rem] top-1.5 w-4 h-4 rounded-full bg-accent z-10"></div>
-                          
-                          <div className="mb-1 font-medium">{job.company}</div>
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Calendar className="h-3.5 w-3.5 mr-1.5" />
-                            <span>{job.duration}</span>
+                    <div className="space-y-12 ml-10">
+                      {sortedJobs.map((job, index) => (
+                        <AnimateOnScroll key={job.company}>
+                          <div className="relative">
+                            {/* Timeline Dot */}
+                            <div className="absolute left-[-2.25rem] top-1.5 w-4 h-4 rounded-full bg-accent z-10"></div>
+                            
+                            <div className="mb-1 font-medium">{job.company}</div>
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Calendar className="h-3.5 w-3.5 mr-1.5" />
+                              <span>{job.duration}</span>
+                            </div>
                           </div>
-                        </div>
-                      </AnimateOnScroll>
-                    ))}
+                        </AnimateOnScroll>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Job details on right */}
-            <div className="md:w-2/3">
-              <div className="space-y-8">
-                {sortedJobs.map((job, index) => (
-                  <AnimateOnScroll key={job.company}>
-                    <Card className="p-6 border border-border hover:border-accent/50 transition-all">
-                      <h4 className="text-lg font-semibold">{job.company}</h4>
-                      <p className="text-accent font-medium text-sm mb-4">{job.role}</p>
-                      <div className="flex items-center gap-2 mb-4 text-muted-foreground text-sm">
-                        <Calendar className="h-4 w-4" />
-                        <span>{job.duration}</span>
-                      </div>
-                      <ul className="space-y-2 mb-4">
-                        {job.description.map((point, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                            <div className="h-1.5 w-1.5 rounded-full bg-accent mt-2"></div>
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {job.technologies.map(tech => (
-                          <span key={tech} className="text-xs bg-secondary px-2 py-1 rounded">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </Card>
-                  </AnimateOnScroll>
-                ))}
+              {/* Job details on right */}
+              <div className="md:w-2/3">
+                <div className="space-y-8">
+                  {sortedJobs.map((job, index) => (
+                    <AnimateOnScroll key={job.company}>
+                      <Card className="p-6 border border-border hover:border-accent/50 transition-all">
+                        <h4 className="text-lg font-semibold">{job.company}</h4>
+                        <p className="text-accent font-medium text-sm mb-4">{job.role}</p>
+                        <div className="flex items-center gap-2 mb-4 text-muted-foreground text-sm">
+                          <Calendar className="h-4 w-4" />
+                          <span>{job.duration}</span>
+                        </div>
+                        <ul className="space-y-2 mb-4">
+                          {job.description.map((point, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <div className="h-1.5 w-1.5 rounded-full bg-accent mt-2"></div>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {job.technologies.map(tech => (
+                            <span key={tech} className="text-xs bg-secondary px-2 py-1 rounded">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </Card>
+                    </AnimateOnScroll>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

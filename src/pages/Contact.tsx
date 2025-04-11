@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import BottomNav from '@/components/BottomNav';
 
 const ContactPage = () => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const ContactPage = () => {
         <Contact />
       </div>
       <Footer />
+      <BottomNav />
     </div>
   );
 };
